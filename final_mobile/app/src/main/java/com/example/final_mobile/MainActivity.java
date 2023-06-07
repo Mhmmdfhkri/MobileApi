@@ -4,15 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.transition.FragmentTransitionSupport;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.final_mobile.fragments.FavoritesFragment;
 import com.example.final_mobile.fragments.MovieFragment;
+import com.example.final_mobile.fragments.televisionFragment;
 import com.example.final_mobile.fragments.televisionFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
         tab_television = findViewById(R.id.tab_television);
         tab_favorites = findViewById(R.id.tab_favorites);
 
+        // Memanggil metode replaceFragment() dengan parameter MovieFragment saat aplikasi dibuka
+        replaceFragment(new MovieFragment());
 
         tab_movie.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment) {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_container, fragment);
