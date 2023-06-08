@@ -3,12 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.televisionFragment">
+    tools:context=".fragments.TelevisionFragment"
+    android:id="@+id/fragment_container">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_internetConection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
+        android:text="Please Check Your Internet Conection"
+        android:textSize="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Fragments 3"  />
+        android:padding="8dp"
+        android:numColumns="2"
+        tools:listitem="@layout/movie_item"/>
 
 </FrameLayout>

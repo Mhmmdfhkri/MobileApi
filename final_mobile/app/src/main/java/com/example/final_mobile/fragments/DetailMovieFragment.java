@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Movie;
 import com.example.final_mobile.R;
 
-public class DetailFragment extends Fragment {
+public class DetailMovieFragment extends Fragment {
 
     private static final String ARG_MOVIE = "movie";
 
@@ -27,12 +27,12 @@ public class DetailFragment extends Fragment {
 
     private Movie movie;
 
-    public DetailFragment() {
+    public DetailMovieFragment() {
         // Required empty public constructor
     }
 
-    public static DetailFragment newInstance(Movie movie) {
-        DetailFragment fragment = new DetailFragment();
+    public static DetailMovieFragment newInstance(Movie movie) {
+        DetailMovieFragment fragment = new DetailMovieFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_MOVIE, movie);
         fragment.setArguments(args);

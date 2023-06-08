@@ -5,16 +5,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Movie;
 import com.example.final_mobile.R;
-import com.example.final_mobile.fragments.DetailFragment;
+import com.example.final_mobile.fragments.DetailMovieFragment;
 
 public class MovieDetailActivity extends AppCompatActivity {
-
-
     public static final String ARG_MOVIE = "movie";
 
     @Override
@@ -29,7 +25,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void showDetailFragment(Movie movie) {
-        DetailFragment fragment = DetailFragment.newInstance(movie);
+        DetailMovieFragment fragment = DetailMovieFragment.newInstance(movie);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);

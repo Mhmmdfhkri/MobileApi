@@ -3,45 +3,44 @@ package com.example.final_mobile.Class;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
-public class Movie implements Parcelable {
+public class Television implements Parcelable {
     private int id;
     private String title;
-    private String posterPath;
     private String releaseDate;
     private double voteAverage;
     private String overview;
+    private String posterPath;
     private String backdropPath;
 
-    public Movie(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview, String backdropPath) {
+    public Television(String title, String releaseDate, double voteAverage, String overview, String posterPath, String backdropPath) {
         this.id = id;
         this.title = title;
-        this.posterPath = posterPath;
         this.releaseDate = releaseDate;
         this.voteAverage = voteAverage;
         this.overview = overview;
+        this.posterPath = posterPath;
         this.backdropPath = backdropPath;
     }
-    protected Movie(Parcel in) {
+
+    protected Television(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        posterPath = in.readString();
         releaseDate = in.readString();
         voteAverage = in.readDouble();
         overview = in.readString();
+        posterPath = in.readString();
         backdropPath = in.readString();
     }
 
-    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+    public static final Creator<Television> CREATOR = new Creator<Television>() {
         @Override
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
+        public Television createFromParcel(Parcel in) {
+            return new Television(in);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public Television[] newArray(int size) {
+            return new Television[size];
         }
     };
 
@@ -49,56 +48,28 @@ public class Movie implements Parcelable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public double getVoteAverage() {
         return voteAverage;
-    }
-
-    public void setVoteAverage(double voteAverage) {
-        this.voteAverage = voteAverage;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
+    public String getPosterPath() {
+        return posterPath;
     }
 
     public String getBackdropPath() {
         return backdropPath;
-    }
-
-    public void setBackdropPath(String backdropPath) {
-        this.backdropPath = backdropPath;
     }
 
     @Override
@@ -107,14 +78,13 @@ public class Movie implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(id);
         parcel.writeString(title);
-        parcel.writeString(posterPath);
         parcel.writeString(releaseDate);
         parcel.writeDouble(voteAverage);
         parcel.writeString(overview);
+        parcel.writeString(posterPath);
         parcel.writeString(backdropPath);
     }
 }
-

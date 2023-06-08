@@ -1,11 +1,16 @@
 package com.example.final_mobile.fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +31,7 @@ import com.example.final_mobile.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +42,14 @@ public class MovieFragment extends Fragment {
     private MovieAdapter movieAdapter;
 
     private List<Movie> movieList = new ArrayList<>();
+    private TextView internetConection;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
 
+        internetConection = view.findViewById(R.id.tv_internetConection);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // Mengatur jumlah kolom menjadi 2
 
@@ -64,6 +73,12 @@ public class MovieFragment extends Fragment {
     }
 
     private void fetchMovies() {
+        // Periksa koneksi internet sebelum melakukan permintaan API
+        if (!isNetworkAvailable()) {
+            internetConection.setVisibility(View.VISIBLE);
+            return;
+        }
+
         // Menggunakan library Volley untuk mengambil data film dari API
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         String baseUrl = "https://api.themoviedb.org/3/movie/now_playing"; // Base URL API The Movie Database
@@ -122,5 +137,15 @@ public class MovieFragment extends Fragment {
     public void onResume() {
         super.onResume();
         logMovieUrls(movieList);
+    }
+
+    // Metode untuk memeriksa ketersediaan koneksi internet
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+        return false;
     }
 }
