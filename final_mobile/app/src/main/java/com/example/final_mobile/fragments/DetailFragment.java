@@ -1,24 +1,19 @@
 package com.example.final_mobile.fragments;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Movie;
 import com.example.final_mobile.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DetailFragment extends Fragment {
 
     private static final String ARG_MOVIE = "movie";
@@ -49,13 +44,13 @@ public class DetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             movie = getArguments().getParcelable(ARG_MOVIE);
+            setMovieImageUrls(movie); // Panggil metode untuk mengatur URL gambar pada objek Movie
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         posterImageView = view.findViewById(R.id.posterImageView);
@@ -70,11 +65,22 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
+    private void setMovieImageUrls(Movie movie) {
+        // Atur URL gambar menggunakan base URL dan nilai posterPath dan backdropPath
+        String baseUrl = "https://image.tmdb.org/t/p/w500";
+        String posterPath = movie.getPosterPath();
+        String backdropPath = movie.getBackdropPath();
+
+        movie.setPosterPath(baseUrl + posterPath);
+        movie.setBackdropPath(baseUrl + backdropPath);
+    }
+
     private void bindMovie() {
-        // Use Glide library to load images
         Glide.with(requireContext())
                 .load(movie.getPosterPath())
                 .into(posterImageView);
+
+        Log.d("URL", "Poster Path: " + movie.getPosterPath());
 
         titleTextView.setText(movie.getTitle());
         releaseDateTextView.setText(movie.getReleaseDate());
@@ -84,5 +90,7 @@ public class DetailFragment extends Fragment {
         Glide.with(requireContext())
                 .load(movie.getBackdropPath())
                 .into(backdropImageView);
+
+        Log.d("URL", "Backdrop Path: " + movie.getBackdropPath());
     }
 }

@@ -1,13 +1,14 @@
 package com.example.final_mobile.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,8 +20,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.final_mobile.Adapter.MovieAdapter;
 import com.example.final_mobile.Class.Movie;
+import com.example.final_mobile.DetailActivity.MovieDetailActivity;
 import com.example.final_mobile.R;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,7 +47,7 @@ public class MovieFragment extends Fragment {
         movieAdapter = new MovieAdapter(movieList, new MovieAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Movie movie) {
-                showDetailFragment(movie);
+                showDetailActivity(movie);
             }
         });
         recyclerView.setAdapter(movieAdapter);
@@ -104,13 +105,22 @@ public class MovieFragment extends Fragment {
         queue.add(request);
     }
 
-    private void showDetailFragment(Movie movie) {
-        // Menampilkan fragment detail dengan menggunakan FragmentManager
-        DetailFragment fragment = DetailFragment.newInstance(movie);
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .addToBackStack(null)
-                .commit();
+    private void showDetailActivity(Movie movie) {
+        Intent intent = new Intent(requireContext(), MovieDetailActivity.class);
+        intent.putExtra(MovieDetailActivity.ARG_MOVIE, movie);
+        startActivity(intent);
+    }
+
+    private void logMovieUrls(List<Movie> movieList) {
+        for (Movie movie : movieList) {
+            Log.d("URL", "Poster Path: " + movie.getPosterPath());
+            Log.d("URL", "Backdrop Path: " + movie.getBackdropPath());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        logMovieUrls(movieList);
     }
 }
