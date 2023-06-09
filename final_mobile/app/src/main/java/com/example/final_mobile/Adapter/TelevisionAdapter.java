@@ -1,6 +1,8 @@
 package com.example.final_mobile.Adapter;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,28 +10,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.example.final_mobile.Class.Television;
+import com.example.final_mobile.DetailActivity.TelevisionDetailActivity;
 import com.example.final_mobile.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class TelevisionAdapter extends RecyclerView.Adapter<TelevisionAdapter.ViewHolder> {
     private List<Television> televisionList;
-    private OnItemClickListener onItemClickListener;
+    private Context context;
 
-    public interface OnItemClickListener {
-        void onItemClick(Television television);
+    public TelevisionAdapter(List<Television> televisionList, Context context) {
+        this.televisionList = televisionList;
+        this.context = context;
     }
 
-    public TelevisionAdapter(List<Television> televisionList, OnItemClickListener onItemClickListener) {
-        this.televisionList = televisionList;
-        this.onItemClickListener = onItemClickListener;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView posterImageView;
+        private TextView titleTextView;
+        private TextView releaseDateTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            posterImageView = itemView.findViewById(R.id.posterImageView);
+            titleTextView = itemView.findViewById(R.id.titleTextView);
+            releaseDateTextView = itemView.findViewById(R.id.yearTextView);
+        }
     }
 
     @NonNull
@@ -42,58 +51,26 @@ public class TelevisionAdapter extends RecyclerView.Adapter<TelevisionAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Television television = televisionList.get(position);
-        holder.bind(television);
+
+        holder.titleTextView.setText(television.getTitle());
+        holder.releaseDateTextView.setText(television.getReleaseDate());
+
+        // Load the poster image using Picasso
+        Picasso.get().load(television.getPosterImageUrl()).placeholder(R.drawable.ic_launcher_background).into(holder.posterImageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle item click event, e.g., open the detail activity
+                Intent intent = new Intent(context, TelevisionDetailActivity.class);
+                intent.putExtra(TelevisionDetailActivity.ARG_TELEVISION, television);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return televisionList.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView posterImageView;
-        private ImageView backdropImageView;
-        private TextView titleTextView;
-        private TextView yearTextView;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            posterImageView = itemView.findViewById(R.id.posterImageView);
-            backdropImageView = itemView.findViewById(R.id.backdropImageView);
-            titleTextView = itemView.findViewById(R.id.titleTextView);
-            yearTextView = itemView.findViewById(R.id.yearTextView);
-
-            itemView.setOnClickListener(this);
-        }
-
-        public void bind(Television television) {
-            // Set the data to the views
-            titleTextView.setText(television.getTitle());
-            yearTextView.setText(television.getReleaseDate());
-
-            // Use Glide library to load the poster image
-            Glide.with(itemView.getContext())
-                    .load(television.getPosterPath())
-                    .into(posterImageView);
-
-            // Use Glide library to load the backdrop image as the background
-            Glide.with(itemView.getContext())
-                    .load(television.getBackdropPath())
-                    .into(new SimpleTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            backdropImageView.setImageDrawable(resource);
-                        }
-                    });
-        }
-
-        @Override
-        public void onClick(View v) {
-            int position = getAdapterPosition();
-            if (position != RecyclerView.NO_POSITION) {
-                Television television = televisionList.get(position);
-                onItemClickListener.onItemClick(television);
-            }
-        }
     }
 }

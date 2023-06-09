@@ -4,32 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Television implements Parcelable {
-    private int id;
     private String title;
     private String releaseDate;
+    private String posterImageUrl;
     private double voteAverage;
     private String overview;
-    private String posterPath;
-    private String backdropPath;
+    private String backdropImageUrl;
 
-    public Television(String title, String releaseDate, double voteAverage, String overview, String posterPath, String backdropPath) {
-        this.id = id;
+    public Television(String title, String releaseDate, String posterImageUrl) {
         this.title = title;
         this.releaseDate = releaseDate;
-        this.voteAverage = voteAverage;
-        this.overview = overview;
-        this.posterPath = posterPath;
-        this.backdropPath = backdropPath;
+        this.posterImageUrl = posterImageUrl;
     }
 
     protected Television(Parcel in) {
-        id = in.readInt();
         title = in.readString();
         releaseDate = in.readString();
+        posterImageUrl = in.readString();
         voteAverage = in.readDouble();
         overview = in.readString();
-        posterPath = in.readString();
-        backdropPath = in.readString();
+        backdropImageUrl = in.readString();
     }
 
     public static final Creator<Television> CREATOR = new Creator<Television>() {
@@ -44,32 +38,52 @@ public class Television implements Parcelable {
         }
     };
 
-    public int getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public String getPosterImageUrl() {
+        return posterImageUrl;
+    }
+
+    public void setPosterImageUrl(String posterImageUrl) {
+        this.posterImageUrl = posterImageUrl;
+    }
+
     public double getVoteAverage() {
         return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public String getPosterPath() {
-        return posterPath;
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
-    public String getBackdropPath() {
-        return backdropPath;
+    public String getBackdropImageUrl() {
+        return backdropImageUrl;
+    }
+
+    public void setBackdropImageUrl(String backdropImageUrl) {
+        this.backdropImageUrl = backdropImageUrl;
     }
 
     @Override
@@ -78,13 +92,12 @@ public class Television implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
-        parcel.writeString(title);
-        parcel.writeString(releaseDate);
-        parcel.writeDouble(voteAverage);
-        parcel.writeString(overview);
-        parcel.writeString(posterPath);
-        parcel.writeString(backdropPath);
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(releaseDate);
+        dest.writeString(posterImageUrl);
+        dest.writeDouble(voteAverage);
+        dest.writeString(overview);
+        dest.writeString(backdropImageUrl);
     }
 }
