@@ -27,7 +27,7 @@
         android:layout_marginTop="10dp">
 
         <ImageView
-            android:id="@+id/btnLove"
+            android:id="@+id/btn_love"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/love"
@@ -35,12 +35,15 @@
 
     </androidx.cardview.widget.CardView>
 
+
+
     <ImageView
-        android:id="@+id/backdropImageView"
+        android:id="@+id/ivBackdrop"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background" />
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="200dp"
@@ -55,14 +58,14 @@
             android:layout_margin="10dp">
 
             <TextView
-                android:id="@+id/titleTextView"
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/releaseDateTextView"
+                android:id="@+id/tvReleaseDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />
@@ -76,7 +79,7 @@
                     android:layout_height="19dp"
                     android:src="@mipmap/rate" />
                 <TextView
-                    android:id="@+id/voteAverageTextView"
+                    android:id="@+id/tvVoteAverage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -95,7 +98,7 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/posterImageView"
+        android:id="@+id/ivPoster"
         android:layout_width="114dp"
         android:layout_height="175dp"
         android:layout_marginTop="150dp"
@@ -104,39 +107,39 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_launcher_background" />
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="330dp"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp">
-
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="330dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Synopsis"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20dp"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/overviewTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="14sp"
-            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Synopsis"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
 
 
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>

@@ -116,5 +116,7 @@ public class Movie implements Parcelable {
         parcel.writeString(overview);
         parcel.writeString(backdropPath);
     }
+
+    // Buat constructor, getter, dan setter sesuai kebutuhan
 }
 

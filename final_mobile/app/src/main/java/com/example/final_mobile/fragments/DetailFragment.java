@@ -1,5 +1,6 @@
 package com.example.final_mobile.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Movie;
 import com.example.final_mobile.R;
 
-public class DetailMovieFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
     private static final String ARG_MOVIE = "movie";
 
@@ -24,15 +25,16 @@ public class DetailMovieFragment extends Fragment {
     private TextView voteAverageTextView;
     private TextView overviewTextView;
     private ImageView backdropImageView;
+    private ImageView btnLove;
 
     private Movie movie;
 
-    public DetailMovieFragment() {
+    public DetailFragment() {
         // Required empty public constructor
     }
 
-    public static DetailMovieFragment newInstance(Movie movie) {
-        DetailMovieFragment fragment = new DetailMovieFragment();
+    public static DetailFragment newInstance(Movie movie) {
+        DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_MOVIE, movie);
         fragment.setArguments(args);
@@ -48,6 +50,7 @@ public class DetailMovieFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,23 +62,21 @@ public class DetailMovieFragment extends Fragment {
         voteAverageTextView = view.findViewById(R.id.voteAverageTextView);
         overviewTextView = view.findViewById(R.id.overviewTextView);
         backdropImageView = view.findViewById(R.id.backdropImageView);
+        btnLove = view.findViewById(R.id.btnLove);
 
-        bindMovie();
+        btnLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isSelected = v.isSelected();
+                v.setSelected(!isSelected);
+                if (isSelected) {
+                    btnLove.setImageResource(R.mipmap.love);
+                } else {
+                    btnLove.setImageResource(R.mipmap.favorites);
+                }
+            }
+        });
 
-        return view;
-    }
-
-    private void setMovieImageUrls(Movie movie) {
-        // Atur URL gambar menggunakan base URL dan nilai posterPath dan backdropPath
-        String baseUrl = "https://image.tmdb.org/t/p/w500";
-        String posterPath = movie.getPosterPath();
-        String backdropPath = movie.getBackdropPath();
-
-        movie.setPosterPath(baseUrl + posterPath);
-        movie.setBackdropPath(baseUrl + backdropPath);
-    }
-
-    private void bindMovie() {
         Glide.with(requireContext())
                 .load(movie.getPosterPath())
                 .into(posterImageView);
@@ -92,5 +93,17 @@ public class DetailMovieFragment extends Fragment {
                 .into(backdropImageView);
 
         Log.d("URL", "Backdrop Path: " + movie.getBackdropPath());
+
+        return view;
+    }
+
+    private void setMovieImageUrls(Movie movie) {
+        // Atur URL gambar menggunakan base URL dan nilai posterPath dan backdropPath
+        String baseUrl = "https://image.tmdb.org/t/p/w500";
+        String posterPath = movie.getPosterPath();
+        String backdropPath = movie.getBackdropPath();
+
+        movie.setPosterPath(baseUrl + posterPath);
+        movie.setBackdropPath(baseUrl + backdropPath);
     }
 }

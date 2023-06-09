@@ -1,51 +1,33 @@
 package com.example.final_mobile.DetailActivity;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import android.content.Intent;
+import android.os.Bundle;
 import com.example.final_mobile.Class.Television;
 import com.example.final_mobile.R;
-import com.squareup.picasso.Picasso;
+import com.example.final_mobile.fragments.TelevisionDetailFragment;
 
 public class TelevisionDetailActivity extends AppCompatActivity {
-    public static final String ARG_TELEVISION = "television";
-    private ImageView backdropImageView;
-    private TextView titleTextView;
-    private TextView releaseDateTextView;
-    private TextView voteAverageTextView;
-    private TextView overviewTextView;
-    private ImageView posterImageView;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_television_detail);
 
-        backdropImageView = findViewById(R.id.backdropImageView);
-        titleTextView = findViewById(R.id.titleTextView);
-        releaseDateTextView = findViewById(R.id.releaseDateTextView);
-        voteAverageTextView = findViewById(R.id.voteAverageTextView);
-        overviewTextView = findViewById(R.id.overviewTextView);
-        posterImageView = findViewById(R.id.posterImageView);
-
-        // Get the television object from the intent
-        Television television = getIntent().getParcelableExtra("television");
-
-        if (television != null) {
-            titleTextView.setText(television.getTitle());
-            releaseDateTextView.setText(television.getReleaseDate());
-            voteAverageTextView.setText(String.valueOf(television.getVoteAverage()));
-            overviewTextView.setText(television.getOverview());
-
-            // Load the poster and backdrop images using a library like Picasso or Glide
-            // For example:
-            Picasso.get().load(television.getPosterImageUrl()).placeholder(R.drawable.ic_launcher_background).into(posterImageView);
-            Picasso.get().load(television.getBackdropImageUrl()).placeholder(R.drawable.ic_launcher_background).into(backdropImageView);
+        // Mendapatkan data Television dari Intent
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("tvShow")) {
+            Television tvShow = intent.getParcelableExtra("tvShow");
+            if (tvShow != null) {
+                // Mengirim data Television ke TelevisionDetailFragment
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment fragment = TelevisionDetailFragment.newInstance(tvShow);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+            }
         }
     }
 }

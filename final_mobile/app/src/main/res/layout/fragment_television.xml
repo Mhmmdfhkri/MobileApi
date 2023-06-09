@@ -1,28 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<!-- fragment_television.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.TelevisionFragment"
-    android:id="@+id/fcontainer">
-
-    <TextView
-        android:id="@+id/tv_internetConection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:visibility="gone"
-        android:text="Please Check Your Internet Conection"
-        android:textSize="30dp"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:numColumns="2"
-        tools:listitem="@layout/movie_item"/>
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/tv_internet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginTop="248dp"
+        android:layout_marginBottom="464dp"
+        android:text="Please, Check Your Internet Conection" />
+
+    <TextView
+        android:id="@+id/tv_interne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="269dp"
+        android:layout_marginBottom="443dp"
+        android:gravity="center"
+        android:text="Please, Check Your Internet Conection"
+        android:textColor="@color/black" />
+
+</RelativeLayout>

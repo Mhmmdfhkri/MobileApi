@@ -1,6 +1,5 @@
 package com.example.final_mobile.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -39,17 +38,17 @@ public class MovieFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
+    private TextView internetConnection;
 
     private List<Movie> movieList = new ArrayList<>();
-    private TextView internetConection;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        internetConection = view.findViewById(R.id.tv_internetConection);
         recyclerView = view.findViewById(R.id.recyclerView);
+        internetConnection = view.findViewById(R.id.tv_internet);
+
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // Mengatur jumlah kolom menjadi 2
 
         movieAdapter = new MovieAdapter(movieList, new MovieAdapter.OnItemClickListener() {
@@ -72,51 +71,52 @@ public class MovieFragment extends Fragment {
     }
 
     private void fetchMovies() {
-        // Periksa koneksi internet sebelum melakukan permintaan API
-        if (!isNetworkAvailable()) {
-            internetConection.setVisibility(View.VISIBLE);
-            return;
-        }
+        // Memeriksa koneksi internet sebelum mengambil data
+        if (isNetworkAvailable()) {
+            // Menggunakan library Volley untuk mengambil data film dari API
+            RequestQueue queue = Volley.newRequestQueue(requireContext());
+            String baseUrl = "https://api.themoviedb.org/3/movie/now_playing"; // Base URL API The Movie Database
+            String apiKey = "5fcb44f5991c765d4bfabcd479b852bf"; // API key yang diberikan
+            String url = baseUrl + "?api_key=" + apiKey;
 
-        // Menggunakan library Volley untuk mengambil data film dari API
-        RequestQueue queue = Volley.newRequestQueue(requireContext());
-        String baseUrl = "https://api.themoviedb.org/3/movie/now_playing"; // Base URL API The Movie Database
-        String apiKey = "5fcb44f5991c765d4bfabcd479b852bf"; // API key yang diberikan
-        String url = baseUrl + "?api_key=" + apiKey;
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            // Parsing data JSON menjadi objek Movie
-                            JSONArray results = response.getJSONArray("results");
-                            for (int i = 0; i < results.length(); i++) {
-                                JSONObject movieObject = results.getJSONObject(i);
-                                int id = movieObject.getInt("id");
-                                String title = movieObject.getString("title");
-                                String posterPath = movieObject.getString("poster_path");
-                                String releaseDate = movieObject.getString("release_date");
-                                double voteAverage = movieObject.getDouble("vote_average");
-                                String overview = movieObject.getString("overview");
-                                String backdropPath = movieObject.getString("backdrop_path");
-                                Movie movie = new Movie(id, title, posterPath, releaseDate, voteAverage, overview, backdropPath);
-                                movieList.add(movie);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                // Parsing data JSON menjadi objek Movie
+                                JSONArray results = response.getJSONArray("results");
+                                for (int i = 0; i < results.length(); i++) {
+                                    JSONObject movieObject = results.getJSONObject(i);
+                                    int id = movieObject.getInt("id");
+                                    String title = movieObject.getString("title");
+                                    String posterPath = movieObject.getString("poster_path");
+                                    String releaseDate = movieObject.getString("release_date");
+                                    double voteAverage = movieObject.getDouble("vote_average");
+                                    String overview = movieObject.getString("overview");
+                                    String backdropPath = movieObject.getString("backdrop_path");
+                                    Movie movie = new Movie(id, title, posterPath, releaseDate, voteAverage, overview, backdropPath);
+                                    movieList.add(movie);
+                                }
+                                movieAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            movieAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Penanganan kesalahan jika permintaan gagal
-                        Toast.makeText(requireContext(), error.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // Penanganan kesalahan jika permintaan gagal
+                            Toast.makeText(requireContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-        queue.add(request);
+            queue.add(request);
+        } else {
+            // Menampilkan teks peringatan ketika tidak ada koneksi internet
+            internetConnection.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showDetailActivity(Movie movie) {
@@ -125,20 +125,13 @@ public class MovieFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void logMovieUrls(List<Movie> movieList) {
-        for (Movie movie : movieList) {
-            Log.d("URL", "Poster Path: " + movie.getPosterPath());
-            Log.d("URL", "Backdrop Path: " + movie.getBackdropPath());
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         logMovieUrls(movieList);
     }
 
-    // Metode untuk memeriksa ketersediaan koneksi internet
+    // Memeriksa ketersediaan koneksi internet
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
@@ -146,5 +139,12 @@ public class MovieFragment extends Fragment {
             return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }
         return false;
+    }
+
+    private void logMovieUrls(List<Movie> movieList) {
+        for (Movie movie : movieList) {
+            Log.d("URL", "Poster Path: " + movie.getPosterPath());
+            Log.d("URL", "Backdrop Path: " + movie.getBackdropPath());
+        }
     }
 }
