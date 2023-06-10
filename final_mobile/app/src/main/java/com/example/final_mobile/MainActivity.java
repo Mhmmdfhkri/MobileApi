@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView tab_movie, tab_favorites, tab_television;
     private ProgressBar progressBar;
     private TextView internetConnection;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         tab_favorites = findViewById(R.id.tab_favorites);
         progressBar = findViewById(R.id.progress_bar);
         internetConnection = findViewById(R.id.tv_internet);
+        toolbar = findViewById(R.id.toolbar);
 
         replaceFragment(new MovieFragment());
 
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 replaceFragment(new MovieFragment());
                 checkInternetConnection();
+                toolbar.setTitle("Movies"); // Atur judul toolbar
             }
         });
 
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 replaceFragment(new TelevisionFragment());
                 checkInternetConnection();
+                toolbar.setTitle("Television"); // Atur judul toolbar
             }
         });
 
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 replaceFragment(new FavoritesFragment());
                 internetConnection.setVisibility(View.GONE);
+                toolbar.setTitle("Favorites"); // Atur judul toolbar
             }
         });
 
