@@ -66,8 +66,8 @@
                 android:id="@+id/tab_movies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/movie"
-                app:tint="@color/black" />
+                android:src="@mipmap/mov"
+                 />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,8 +87,8 @@
                 android:id="@+id/tab_television"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tv"
-                app:tint="@color/black" />
+                android:src="@mipmap/tivi"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -108,8 +108,8 @@
                 android:id="@+id/tab_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/favorites"
-                app:tint="@color/black" />
+                android:src="@mipmap/fav"
+                />
 
             <TextView
                 android:layout_width="wrap_content"

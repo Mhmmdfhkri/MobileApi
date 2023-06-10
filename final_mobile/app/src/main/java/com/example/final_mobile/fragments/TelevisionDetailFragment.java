@@ -59,9 +59,9 @@ public class TelevisionDetailFragment extends Fragment {
                 boolean isSelected = v.isSelected();
                 v.setSelected(!isSelected);
                 if (isSelected) {
-                    btnLove.setImageResource(R.mipmap.love);
+                    btnLove.setImageResource(R.mipmap.favo);
                 } else {
-                    btnLove.setImageResource(R.mipmap.favorites);
+                    btnLove.setImageResource(R.mipmap.fav);
                 }
             }
         });
