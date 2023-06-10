@@ -3,6 +3,8 @@
     <style name="Base.Theme.Final_mobile" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="windowActionBar">true</item> <!-- Add this line to enable the action bar -->
+        <item name="windowNoTitle">false</item>
     </style>
 
     <style name="Theme.Final_mobile" parent="Base.Theme.Final_mobile" />

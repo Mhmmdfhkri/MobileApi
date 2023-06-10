@@ -89,7 +89,7 @@
                     android:layout_marginLeft="100dp"
                     android:layout_width="37dp"
                     android:layout_height="36dp"
-                    android:src="@mipmap/movie_populer" />
+                    android:src="@mipmap/tv" />
             </LinearLayout>
 
 
@@ -118,24 +118,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Synopsis"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:textSize="20dp"
-                />
-
+                android:textSize="20dp" />
             <TextView
                 android:id="@+id/tvOverview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:textSize="14sp"
-                />
-
+                android:textSize="14sp" />
         </LinearLayout>
 
 

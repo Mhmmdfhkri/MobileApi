@@ -1,25 +1,30 @@
 package com.example.final_mobile;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.final_mobile.fragments.FavoritesFragment;
 import com.example.final_mobile.fragments.MovieFragment;
 import com.example.final_mobile.fragments.TelevisionFragment;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private ImageView tab_movie, tab_favorites, tab_television;
     private ProgressBar progressBar;
+    private TextView internetConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         tab_television = findViewById(R.id.tab_television);
         tab_favorites = findViewById(R.id.tab_favorites);
         progressBar = findViewById(R.id.progress_bar);
+        internetConnection = findViewById(R.id.tv_internet);
 
         replaceFragment(new MovieFragment());
 
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 replaceFragment(new MovieFragment());
+                checkInternetConnection();
             }
         });
 
@@ -44,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 replaceFragment(new TelevisionFragment());
+                checkInternetConnection();
             }
         });
 
@@ -51,8 +59,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 replaceFragment(new FavoritesFragment());
+                internetConnection.setVisibility(View.GONE);
             }
         });
+
+        // Cek koneksi internet saat activity dibuat
+        checkInternetConnection();
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -66,18 +78,32 @@ public class MainActivity extends AppCompatActivity {
         backgroundTask.execute();
     }
 
+    private void checkInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            internetConnection.setVisibility(View.GONE); // Sembunyikan teks "Mohon nyalakan internet"
+        } else {
+            // Tampilkan teks "Mohon nyalakan internet" hanya untuk tab Television dan Movie
+            if (tab_favorites.isSelected()) {
+                internetConnection.setVisibility(View.GONE);
+            }else {
+                internetConnection.setVisibility(View.VISIBLE); // Tampilkan teks "Mohon nyalakan internet"
+            }
+        }
+    }
+
     private class BackgroundTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -89,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
             progressBar.setVisibility(View.GONE);
         }
     }
