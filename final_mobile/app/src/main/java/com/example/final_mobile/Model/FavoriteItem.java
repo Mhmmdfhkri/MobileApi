@@ -1,11 +1,11 @@
-package com.example.final_mobile.Class;
+package com.example.final_mobile.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class Movie implements Parcelable {
+public class FavoriteItem implements Parcelable {
     private int id;
     private String title;
     private String posterPath;
@@ -14,7 +14,7 @@ public class Movie implements Parcelable {
     private String overview;
     private String backdropPath;
 
-    public Movie(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview, String backdropPath) {
+    public FavoriteItem(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview, String backdropPath) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
@@ -22,15 +22,6 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
         this.overview = overview;
         this.backdropPath = backdropPath;
-    }
-    protected Movie(Parcel in) {
-        id = in.readInt();
-        title = in.readString();
-        posterPath = in.readString();
-        releaseDate = in.readString();
-        voteAverage = in.readDouble();
-        overview = in.readString();
-        backdropPath = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {

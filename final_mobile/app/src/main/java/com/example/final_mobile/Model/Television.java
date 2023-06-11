@@ -1,9 +1,7 @@
-package com.example.final_mobile.Class;
+package com.example.final_mobile.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 public class Television implements Parcelable{
     private String title;

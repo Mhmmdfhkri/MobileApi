@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.final_mobile.Class.Television;
+import com.example.final_mobile.Model.Television;
 import com.example.final_mobile.MainActivity;
 import com.example.final_mobile.R;
 import com.example.final_mobile.fragments.TelevisionDetailFragment;

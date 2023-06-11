@@ -23,7 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.final_mobile.Adapter.MovieAdapter;
-import com.example.final_mobile.Class.Movie;
+import com.example.final_mobile.Model.Movie;
 import com.example.final_mobile.DetailActivity.MovieDetailActivity;
 import com.example.final_mobile.R;
 

@@ -13,14 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.final_mobile.Adapter.TelevisionAdapter;
-import com.example.final_mobile.Class.Television;
+import com.example.final_mobile.Model.Television;
 import com.example.final_mobile.DetailActivity.TelevisionDetailActivity;
 import com.example.final_mobile.R;
 import org.json.JSONArray;

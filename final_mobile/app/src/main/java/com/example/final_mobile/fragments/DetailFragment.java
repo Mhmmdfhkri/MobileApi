@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.final_mobile.Class.Movie;
+import com.example.final_mobile.Model.Movie;
 import com.example.final_mobile.Database.DatabaseHelperMovie;
 import com.example.final_mobile.R;
 
