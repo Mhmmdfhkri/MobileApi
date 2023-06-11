@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Movie;
+import com.example.final_mobile.Database.DatabaseHelperMovie;
 import com.example.final_mobile.R;
 
 public class DetailFragment extends Fragment {
@@ -28,6 +30,7 @@ public class DetailFragment extends Fragment {
     private ImageView btnLove;
 
     private Movie movie;
+    private DatabaseHelperMovie databaseHelper;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -48,6 +51,7 @@ public class DetailFragment extends Fragment {
             movie = getArguments().getParcelable(ARG_MOVIE);
             setMovieImageUrls(movie); // Panggil metode untuk mengatur URL gambar pada objek Movie
         }
+        databaseHelper = new DatabaseHelperMovie(requireContext());
     }
 
     @SuppressLint("MissingInflatedId")
@@ -64,15 +68,28 @@ public class DetailFragment extends Fragment {
         backdropImageView = view.findViewById(R.id.backdropImageView);
         btnLove = view.findViewById(R.id.btnLove);
 
+        // Cek apakah film ini merupakan favorit
+        final boolean[] isFavorite = {databaseHelper.isFavorite(movie.getTitle())};
+        setFavoriteIcon(isFavorite[0]);
+
         btnLove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isSelected = v.isSelected();
                 v.setSelected(!isSelected);
-                if (isSelected) {
-                    btnLove.setImageResource(R.mipmap.favo);
+                isFavorite[0] = !isSelected;
+                setFavoriteIcon(isFavorite[0]);
+
+                if (isFavorite[0]) {
+                    Toast.makeText(getContext(), "Added To Favorites", Toast.LENGTH_SHORT).show();
+
+                    // Simpan data ke database saat ditambahkan ke favorit
+                    databaseHelper.addFavorite(movie.getTitle());
                 } else {
-                    btnLove.setImageResource(R.mipmap.fav);
+                    Toast.makeText(getContext(), "Removed From Favorites", Toast.LENGTH_SHORT).show();
+
+                    // Hapus data dari database saat dihapus dari favorit
+                    databaseHelper.removeFavorite(movie.getTitle());
                 }
             }
         });
@@ -105,5 +122,13 @@ public class DetailFragment extends Fragment {
 
         movie.setPosterPath(baseUrl + posterPath);
         movie.setBackdropPath(baseUrl + backdropPath);
+    }
+
+    private void setFavoriteIcon(boolean isFavorite) {
+        if (isFavorite) {
+            btnLove.setImageResource(R.mipmap.fav);
+        } else {
+            btnLove.setImageResource(R.mipmap.favo);
+        }
     }
 }

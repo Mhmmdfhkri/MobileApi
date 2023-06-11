@@ -1,14 +1,22 @@
 package com.example.final_mobile.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.example.final_mobile.Database.DatabaseHelperTelevision;
+
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.final_mobile.Class.Television;
 import com.example.final_mobile.R;
@@ -24,6 +32,7 @@ public class TelevisionDetailFragment extends Fragment {
     private TextView yearTextView;
     private TextView synopsisTextView;
     private ImageView btnLove;
+    private DatabaseHelperTelevision databaseHelper;
 
     public static TelevisionDetailFragment newInstance(Television tvShow) {
         TelevisionDetailFragment fragment = new TelevisionDetailFragment();
@@ -39,6 +48,7 @@ public class TelevisionDetailFragment extends Fragment {
         if (getArguments() != null) {
             tvShow = getArguments().getParcelable(ARG_TV_SHOW);
         }
+        databaseHelper = new DatabaseHelperTelevision(requireContext());
     }
 
     @SuppressLint("MissingInflatedId")
@@ -53,15 +63,26 @@ public class TelevisionDetailFragment extends Fragment {
         synopsisTextView = view.findViewById(R.id.tvOverview);
         btnLove = view.findViewById(R.id.btn_love);
 
+        // Cek apakah serial ini merupakan favorit
+        final boolean[] isFavorite = {databaseHelper.isFavorite(tvShow.getTitle())};
+        setFavoriteIcon(isFavorite[0]);
+
         btnLove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isSelected = v.isSelected();
                 v.setSelected(!isSelected);
-                if (isSelected) {
-                    btnLove.setImageResource(R.mipmap.favo);
+                isFavorite[0] = !isSelected;
+                setFavoriteIcon(isFavorite[0]);
+
+                if (isFavorite[0]) {
+                    // Tambahkan ke favorit dan simpan ke database
+                    databaseHelper.addFavorite(tvShow.getTitle());
+                    showToast("Added to favorites");
                 } else {
-                    btnLove.setImageResource(R.mipmap.fav);
+                    // Hapus dari favorit dalam database
+                    databaseHelper.removeFavorite(tvShow.getTitle());
+                    showToast("Removed from favorites");
                 }
             }
         });
@@ -84,5 +105,17 @@ public class TelevisionDetailFragment extends Fragment {
         synopsisTextView.setText(tvShow.getOverview());
 
         return view;
+    }
+
+    private void setFavoriteIcon(boolean isFavorite) {
+        if (isFavorite) {
+            btnLove.setImageResource(R.mipmap.fav);
+        } else {
+            btnLove.setImageResource(R.mipmap.favo);
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
