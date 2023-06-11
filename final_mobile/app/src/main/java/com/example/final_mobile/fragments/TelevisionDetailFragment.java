@@ -72,7 +72,7 @@ public class TelevisionDetailFragment extends Fragment {
 
                 if (newFavoriteStatus) {
                     // Tambahkan ke favorit dan simpan ke database
-                    databaseHelper.addFavorite(tvShow.getTitle());
+                    databaseHelper.addFavoriteTelevision(tvShow.getTitle(), tvShow.getVoteAverage(), tvShow.getPosterPath());
                     showToast("Added to favorites");
                 } else {
                     // Hapus dari favorit dalam database

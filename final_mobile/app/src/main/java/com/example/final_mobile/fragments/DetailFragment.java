@@ -73,27 +73,27 @@ public class DetailFragment extends Fragment {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // Handle tombol kembali di sini
             }
         });
 
         // Cek apakah film ini merupakan favorit
-        final boolean[] isFavorite = {databaseHelper.isFavorite(movie.getTitle())};
-        setFavoriteIcon(isFavorite[0]);
+        final boolean isFavorite = databaseHelper.isFavorite(movie.getTitle());
+        setFavoriteIcon(isFavorite);
 
         btnLove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isSelected = v.isSelected();
                 v.setSelected(!isSelected);
-                isFavorite[0] = !isSelected;
-                setFavoriteIcon(isFavorite[0]);
+                boolean newFavoriteStatus = !isSelected;
+                setFavoriteIcon(newFavoriteStatus);
 
-                if (isFavorite[0]) {
+                if (newFavoriteStatus) {
                     Toast.makeText(getContext(), "Added To Favorites", Toast.LENGTH_SHORT).show();
 
                     // Simpan data ke database saat ditambahkan ke favorit
-                    databaseHelper.addFavorite(movie.getTitle());
+                    databaseHelper.addFavoriteMovie(movie.getTitle(), movie.getVoteAverage(), movie.getPosterPath());
                 } else {
                     Toast.makeText(getContext(), "Removed From Favorites", Toast.LENGTH_SHORT).show();
 

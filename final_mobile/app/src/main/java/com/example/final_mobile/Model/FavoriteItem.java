@@ -14,7 +14,7 @@ public class FavoriteItem implements Parcelable {
     private String overview;
     private String backdropPath;
 
-    public FavoriteItem(int id, String title, String posterPath, String releaseDate, double voteAverage, String overview, String backdropPath) {
+    public FavoriteItem(int id, String title, double voteAverage, String overview) {
         this.id = id;
         this.title = title;
         this.posterPath = posterPath;
