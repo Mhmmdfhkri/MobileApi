@@ -28,6 +28,7 @@ public class DetailFragment extends Fragment {
     private TextView overviewTextView;
     private ImageView backdropImageView;
     private ImageView btnLove;
+    private ImageView btnBack;
 
     private Movie movie;
     private DatabaseHelperMovie databaseHelper;
@@ -67,6 +68,14 @@ public class DetailFragment extends Fragment {
         overviewTextView = view.findViewById(R.id.overviewTextView);
         backdropImageView = view.findViewById(R.id.backdropImageView);
         btnLove = view.findViewById(R.id.btnLove);
+        btnBack = view.findViewById(R.id.ivBack);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         // Cek apakah film ini merupakan favorit
         final boolean[] isFavorite = {databaseHelper.isFavorite(movie.getTitle())};

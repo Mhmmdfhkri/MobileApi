@@ -92,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
             internetConnection.setVisibility(View.GONE); // Sembunyikan teks "Mohon nyalakan internet"
         } else {
             // Tampilkan teks "Mohon nyalakan internet" hanya untuk tab Television dan Movie
-            if (tab_favorites.isSelected()) {
-                internetConnection.setVisibility(View.GONE);
-            }else {
+            if (!tab_favorites.isSelected()) {
                 internetConnection.setVisibility(View.VISIBLE); // Tampilkan teks "Mohon nyalakan internet"
+            } else {
+                internetConnection.setVisibility(View.GONE);
             }
         }
     }
